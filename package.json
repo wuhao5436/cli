@@ -1,0 +1,29 @@
+{
+  "name": "js-plugin-cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./bin/index.js",
+  "bin": {
+    "js-plugin-cli": "./bin/index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chalk": "^4.1.0",
+    "commander": "^7.0.0",
+    "download": "^8.0.0",
+    "fs-extra": "^9.1.0",
+    "git-clone": "^0.1.0",
+    "handlebars": "^4.7.6",
+    "inquirer": "^7.3.3",
+    "log-symbols": "^4.0.0",
+    "ora": "^5.3.0",
+    "update-notifier": "^5.0.1"
+  },
+  "dependencies": {},
+  "cankao": "https://juejin.cn/post/6879265583205089287#heading-10"
+}
