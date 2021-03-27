@@ -21,3 +21,8 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+
+# local dev path
+/ant-pro-template
+/src
