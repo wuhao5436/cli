@@ -12,14 +12,11 @@ const setMirror = require('../lib/mirror');
 const dlTemplate = require('../lib/download');
 
 // init
-const initProject = require('../lib/init');
+const initPage = require('../lib/init');
 
 
 // 从package.json中请求version字段
 program.version(require('../package.json').version,'-v, --version')
-
-
-
 
 // upgrade 监测更新
 
@@ -47,12 +44,10 @@ program
 
 
 program
-       .name('js-plugin-cli')
-       .usage('<commands> [options]')
-       .command('init <project_name>')
-       .description('Create a javascript plugin project.')
+       .command('create <model_path_and_name>')
+       .description('创建一个模块')
        .action(project => {
-              initProject(project)
+              initPage(project)
        })
 
 // 解析命令行参数

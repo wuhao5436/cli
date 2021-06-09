@@ -1,1 +1,4 @@
-{"name":"js-plugin-cli","mirror":"git@gitee.com:wuhaozhou/ant-pro-template.git"}
+{
+    "name": "ape-easy-template",
+    "mirror":"https://github.com/wuhao5436/ape-easy-template.git"
+}

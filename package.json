@@ -1,6 +1,6 @@
 {
   "name": "ape-easy",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "",
   "main": "./bin/index.js",
   "bin": {
@@ -16,7 +16,6 @@
     "chalk": "^4.1.0",
     "commander": "^7.0.0",
     "download": "^8.0.0",
-    "download-git-repo": "^3.0.2",
     "fs-extra": "^9.1.0",
     "git-clone": "^0.1.0",
     "handlebars": "^4.7.6",
@@ -25,6 +24,8 @@
     "ora": "^5.3.0",
     "update-notifier": "^5.0.1"
   },
-  "dependencies": {},
+  "dependencies": {
+    "recursive-copy": "^2.0.11"
+  },
   "cankao": "https://juejin.cn/post/6879265583205089287#heading-10"
 }
