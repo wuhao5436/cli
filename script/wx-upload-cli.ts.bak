@@ -1,0 +1,140 @@
+/*
+ * @Description:
+ * @Autor: 吴浩舟
+ * @Date: 2022-07-26 15:05:20
+ * @LastEditors: 吴浩舟
+ * @LastEditTime: 2022-07-27 11:42:25
+ */
+
+/**
+ * todo
+ * step1 build // pre step finished
+ * step2 checklogin
+ * step3 login
+ * step4 modify dist/project.config.json
+ * step5 upload
+ * step6 sync local back-up file
+ */
+
+import { exec } from "child_process";
+import { readFileSync, writeFileSync } from "fs";
+import { prompt } from "inquirer";
+import { resolve } from "path";
+
+const UPLOAD_DRAFT_APPID_CONFIG = {
+  dev: "xxx", //
+  daily: "xxx", // appName1 第三方平台daily环境
+  pre: "xxxx", // appName2 第三方平台pre环境
+  prod: "xxxx", //  appName3 第三方平台线上环境
+};
+
+/** 获取新的版本号 */
+function getVersion(preVersion, answerType) {
+  const [big, mid, small] = preVersion.split(".");
+  if (
+    !answerType ||
+    String.prototype.toLocaleLowerCase.call(answerType) === "no"
+  ) {
+    return preVersion;
+  } else if (/[\d]+\.[\d]+\.[\d]+/.test(answerType)) {
+    const resetVersion = answerType;
+    return resetVersion;
+  } else if (answerType.length === 1 && /[lLmMsS]/.test(answerType)) {
+    switch (String.prototype.toLocaleLowerCase.call(answerType)) {
+      case "l":
+        preVersion = [Number(big) + 1, 0, 0].join(".");
+        break;
+      case "m":
+        preVersion = [big, Number(mid) + 1, 0].join(".");
+        break;
+      case "s":
+        preVersion = [big, mid, Number(small) + 1].join(".");
+        break;
+      default:
+    }
+    return preVersion;
+  }
+}
+
+async function run() {
+  exec("cli islogin", async (error, stdout) => {
+    if (error) {
+      console.error(error);
+    }
+    const isLoginObj = JSON.parse(stdout);
+    if (isLoginObj.login === false) {
+      return await exec("cli login -f base64");
+    }
+
+    const packageStr = readFileSync(
+      resolve(__dirname, "../dist/project.config.json"),
+      { encoding: "utf-8" }
+    );
+    const packageObj = JSON.parse(packageStr) as Record<string, any>;
+    const env = process.env.API_ENV as keyof typeof UPLOAD_DRAFT_APPID_CONFIG;
+    const usingAppId = UPLOAD_DRAFT_APPID_CONFIG[env];
+    packageObj.appid = usingAppId;
+    const reWriteStr = JSON.stringify(packageObj, null, "\t");
+    console.log("env", env);
+    console.log("usingAppId", usingAppId);
+
+    await writeFileSync(
+      resolve(__dirname, "../dist/project.config.json"),
+      reWriteStr,
+      {
+        encoding: "utf-8",
+      }
+    );
+    console.log("修改成功");
+
+    const versionInfo = await readFileSync(
+      resolve(__dirname, "./version.json"),
+      {
+        encoding: "utf-8",
+      }
+    );
+
+    const envVersionObj = JSON.parse(versionInfo);
+
+    const envVersion = envVersionObj[env];
+
+    const { updateType, desc } = await prompt([
+      {
+        type: "input",
+        name: "updateType",
+        message: `当前${env}版本为${envVersion}, 你要升级的版本是?(l,m,s) 或者不需要升级 (no)?`,
+        default: "s",
+      },
+      {
+        type: "input",
+        name: "desc",
+        message: `请输入升级描述`,
+      },
+    ]);
+
+    const newVersion = getVersion(envVersion, updateType);
+
+    const execStr = `cli upload -v ${newVersion} -d ${desc} --project /Users/xxx/project/xxxx/dist`;
+
+    exec(execStr, async (error, stdout) => {
+      if (error) {
+        console.error(error);
+        return "";
+      }
+      console.log("上传结果", stdout);
+      /** 本地同步备份 */
+      envVersionObj[env] = newVersion;
+      const versionInfoStr = JSON.stringify(envVersionObj, null, "\t");
+      await writeFileSync(
+        resolve(__dirname, "./version.json"),
+        versionInfoStr,
+        {
+          encoding: "utf-8",
+        }
+      );
+      console.log("上传完成");
+    });
+  });
+}
+
+run();
