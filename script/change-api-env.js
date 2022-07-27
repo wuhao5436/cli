@@ -1,9 +1,7 @@
 /*
  * @Description:
- * @Autor: 吴浩舟
  * @Date: 2022-03-03 14:50:04
- * @LastEditors: 吴浩舟
- * @LastEditTime: 2022-07-05 16:51:40
+ * @LastEditTime: 2022-07-27 13:54:00
  */
 const package = require("../package.json");
 // const appConfigGen = require("../src/app.config.temp");
