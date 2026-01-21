@@ -45,7 +45,7 @@ program
 
 program
        .command('create <model_path_and_name>')
-       .description('创建一个模块')
+       .description('create a module')
        .action(project => {
               initPage(project)
        })
