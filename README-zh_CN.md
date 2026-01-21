@@ -7,6 +7,14 @@
 ```
 npm i ape-easy -g
 ```
+### 命令
+```
+ape-easy -v
+ape-easy upgrade
+ape-easy mirror <template_mirror>
+ape-easy template
+ape-easy create <model_path_and_name>
+```
 ### 下载模板
 ```
 ape-easy template
@@ -30,3 +38,10 @@ ape-easy create userList
     - batch-handler(批量操作) 
     - connect-model(关联数据中心)
 - 完成后，运行会报错，还需要根据业务具体修改，但是主要的代码已经引入了。
+
+# 配置
+- 配置文件：`config.json`
+- 默认镜像：`https://github.com/wuhao5436/ape-easy-template.git`
+
+# 常见问题
+- 模板下载失败时，请检查网络或使用 `ape-easy mirror <template_mirror>` 重新设置镜像地址

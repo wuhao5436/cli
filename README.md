@@ -7,6 +7,14 @@ makes your job more easy
 ```
 npm i ape-easy -g
 ```
+### commands
+```
+ape-easy -v
+ape-easy upgrade
+ape-easy mirror <template_mirror>
+ape-easy template
+ape-easy create <model_path_and_name>
+```
 ### donwload template
 ```
 ape-easy template
@@ -31,3 +39,10 @@ ape-easy create userList
     - batch-handler(create batch handler) 
     - connect-model(create model connect)
 - when finish, it still can`t pass compile, but the most part of the business code has inclued, you still need do a little of job.
+
+# configuration
+- config file: `config.json`
+- default mirror: `https://github.com/wuhao5436/ape-easy-template.git`
+
+# troubleshooting
+- if template download fails, check your network or update the mirror with `ape-easy mirror <template_mirror>`
